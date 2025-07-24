@@ -1,5 +1,15 @@
-all:
-	-@echo "Please use ./configure first.  Thank you."
+CC = gcc
+CFLAGS = -I./libs/zlib-1.2.8
+LDFLAGS = ./libs/zlib-1.2.8/libz.a
 
-distclean:
-	make -f Makefile.in distclean
+all: main
+
+libs/zlib-1.2.8/libz.a:
+	cd libs/zlib-1.2.8 && ./configure && make
+
+main: main.c libs/zlib-1.2.8/libz.a
+	$(CC) $(CFLAGS) main.c $(LDFLAGS) -o main
+
+clean:
+	rm -f main
+	cd libs/zlib-1.2.8 && make clean
